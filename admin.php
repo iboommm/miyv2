@@ -1,9 +1,4 @@
 <?php
-/**
- * Example Application
- *
- * @package Example-application
- */
 
 require 'libs/Smarty.class.php';
 
@@ -22,4 +17,4 @@ $smarty->cache_lifetime = 120;
 
 $smarty->assign("username","test");
 
-$smarty->display('index.tpl');
+$smarty->display('admin/login.html');
