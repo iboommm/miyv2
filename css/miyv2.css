@@ -23,8 +23,37 @@ body {
     width: auto;
     margin: 10px;
 }
+
+
 .box-border-right {
     border-right: 1px solid #333; 
+}
+
+.box-border-bottom {
+    border-bottom: 1px solid #333; 
+}
+
+.padding-10 {
+    padding: 10px;
+}
+.margin-add-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.btn.btn-primary-outline.btn-login {
+    border: #1d1d1d solid 1px;
+    color: #1d1d1d;
+}
+
+.btn.btn-primary-outline.btn-login:hover {
+    border: none;
+    background-color: #1d1d1d;
+    color: #fff;
+}
+
+.form-control.input-login {
+    border: #1d1d1d solid 1px;
+    color: #1d1d1d;
 }
 /* Form */
 /* Sidebar */
@@ -37,8 +66,11 @@ body {
 /* Sidebar */
 /* Mobile */
 @media only screen and (max-width: 768px) {
+    .mobile-box {
+        border-right: none !important;
+    }
     body {
-        margin-top: 160px;
+        margin-top: 20px;
     }
     #sideLeft {
         position: absolute;
