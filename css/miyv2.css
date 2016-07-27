@@ -24,6 +24,11 @@ body {
     margin: 10px;
 }
 
+.animation-login  {
+    animation : loginForm;
+    animation-duration: 1s;
+    animation-delay: 0s;
+}
 
 .box-border-right {
     border-right: 1px solid #333; 
@@ -145,3 +150,11 @@ body {
     100% {left:0px;}
 }
 /* Mobile */
+
+/* Animation */
+@-webkit-keyframes loginForm {
+    0%   {margin-top:-500px;}
+    100% {margin-top:0px;}
+}
+/* Animation */
+
