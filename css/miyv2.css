@@ -1,0 +1,112 @@
+/* Global */
+body {
+    margin-top: 80px;
+}
+.padding-20 {
+    padding:20px;
+}
+.padding-5 {
+    padding: 5px;
+}
+.banner-template {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    padding-top: 15px;
+    color: #333;
+    background-color: #B1A8C1;
+}
+/* Global */
+/* Form */
+.img-captcha {
+    height: 50px;
+    width: auto;
+    margin: 10px;
+}
+/* Form */
+/* Sidebar */
+.form-search-sidebar {
+    margin-top: -20px;
+}
+.margin-top-remove-40 {
+    margin-top:-40px;
+}
+/* Sidebar */
+/* Mobile */
+@media only screen and (max-width: 768px) {
+    body {
+        margin-top: 160px;
+    }
+    #sideLeft {
+        position: absolute;
+        top: -80px;
+        display: none;
+        z-index: 99;
+        background-color: #fff;
+        width: 100%;
+        animation: sideLeft;
+        animation-duration: 0.2s;
+        animation-delay: 0s;
+    }
+    #sideRight {
+        position: absolute;
+        top: -80px;
+        display: none;
+        z-index: 99;
+        background-color: #fff;
+        width: 100%;
+        animation: sideRight;
+        animation-duration: 0.2s;
+        animation-delay: 0s;
+    }
+    #content {
+        position: absolute;
+        top: -80px;
+        left: 0px;
+        background-color: #fff;
+        width: 100%;
+    }
+    img.avatar {
+        width: 50px;
+    }
+}
+@media only screen and (min-width: 768px) {
+    #content {
+        position: relative !important;
+        display: block !important;
+    }
+    #sideLeft {
+        position: relative !important;
+        display: block !important;
+    }      
+    #sideRight {
+        position: relative !important;
+        display: block !important;
+    }  
+}
+
+@-webkit-keyframes sideLeft {
+    0%   {left:-300px;}
+    100% {left:0px;}
+}
+@-webkit-keyframes sideRight {
+    0%   {left:300px;}
+    100% {left:0px;}
+}
+@-webkit-keyframes contentLeft {
+    0%   {left:0px;}
+    100% {left:300px;}
+}
+@-webkit-keyframes contentRight {
+    0%   {left:0px;}
+    100% {left:-300px;}
+}
+@-webkit-keyframes contentLeftToCenter {
+    0%   {left:300px;}
+    100% {left:0px;}
+}
+@-webkit-keyframes contentRightToCenter {
+    0%   {left:-300px;}
+    100% {left:0px;}
+}
+/* Mobile */
