@@ -1,0 +1,5 @@
+[admin]
+username = ชื่อผู้ใช้
+password = รหัสผ่าน
+login_btn = เข้าสู่ระบบ
+back_btn = กลับ

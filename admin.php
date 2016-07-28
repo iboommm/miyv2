@@ -14,6 +14,8 @@ $smarty->setTemplateDir('./templates')
 $smarty->debugging = false;
 $smarty->caching = true;
 $smarty->cache_lifetime = 120;
+$smarty->left_delimiter = '[[';
+$smarty->right_delimiter = ']]';
 
 $smarty->assign("username","test");
 
