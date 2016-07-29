@@ -5,5 +5,8 @@ app.controller("loginController",['$scope', 'loginService', function ($scope , l
     login.username = "";
     login.password = "";
     
+    this.loginService = loginService;
+    
+    console.log(loginService.arr[0].name);
 
 }]);
