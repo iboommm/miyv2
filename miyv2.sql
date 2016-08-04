@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2016 at 10:59 AM
+-- Generation Time: 
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `blog`
+-- โครงสร้างตาราง `blog`
 --
 
 CREATE TABLE IF NOT EXISTS `blog` (
@@ -41,10 +41,10 @@ CREATE TABLE IF NOT EXISTS `blog` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `catagory`
+-- โครงสร้างตาราง `category`
 --
 
-CREATE TABLE IF NOT EXISTS `catagory` (
+CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `catagory` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `group`
+-- โครงสร้างตาราง `group`
 --
 
 CREATE TABLE IF NOT EXISTS `group` (
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `group` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
 
 --
--- Dumping data for table `group`
+-- dump ตาราง `group`
 --
 
 INSERT INTO `group` (`id`, `name`, `color`, `img`) VALUES
@@ -78,7 +78,7 @@ INSERT INTO `group` (`id`, `name`, `color`, `img`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `member`
+-- โครงสร้างตาราง `member`
 --
 
 CREATE TABLE IF NOT EXISTS `member` (
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS `member` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `member`
+-- dump ตาราง `member`
 --
 
 INSERT INTO `member` (`id`, `username`, `password`, `email`, `group_id`) VALUES
@@ -101,7 +101,7 @@ INSERT INTO `member` (`id`, `username`, `password`, `email`, `group_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reply`
+-- โครงสร้างตาราง `reply`
 --
 
 CREATE TABLE IF NOT EXISTS `reply` (
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `reply` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `setting`
+-- โครงสร้างตาราง `setting`
 --
 
 CREATE TABLE IF NOT EXISTS `setting` (
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `setting` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `setting`
+-- dump ตาราง `setting`
 --
 
 INSERT INTO `setting` (`id`, `title`, `tag`, `switch`) VALUES
@@ -146,8 +146,8 @@ INSERT INTO `setting` (`id`, `title`, `tag`, `switch`) VALUES
 -- Constraints for table `blog`
 --
 ALTER TABLE `blog`
-  ADD CONSTRAINT `blog_ibfk_2` FOREIGN KEY (`cat_by`) REFERENCES `catagory` (`id`),
-  ADD CONSTRAINT `blog_ibfk_1` FOREIGN KEY (`post_by`) REFERENCES `member` (`id`);
+  ADD CONSTRAINT `blog_ibfk_1` FOREIGN KEY (`post_by`) REFERENCES `member` (`id`),
+  ADD CONSTRAINT `blog_ibfk_2` FOREIGN KEY (`cat_by`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `member`
@@ -159,9 +159,9 @@ ALTER TABLE `member`
 -- Constraints for table `reply`
 --
 ALTER TABLE `reply`
-  ADD CONSTRAINT `reply_ibfk_3` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`id`),
   ADD CONSTRAINT `reply_ibfk_1` FOREIGN KEY (`post_by`) REFERENCES `member` (`id`),
-  ADD CONSTRAINT `reply_ibfk_2` FOREIGN KEY (`reply_to`) REFERENCES `reply` (`id`);
+  ADD CONSTRAINT `reply_ibfk_2` FOREIGN KEY (`reply_to`) REFERENCES `reply` (`id`),
+  ADD CONSTRAINT `reply_ibfk_3` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
