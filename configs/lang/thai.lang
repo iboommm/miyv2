@@ -13,3 +13,6 @@ update = อัพเดต
 enterValue = กรอกค่า 
 err = ข้อผิดพลาด
 errloging = ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+errnone = อัพเดตข้อมูลผิดพลาด
+complete = เสร็จสิ้น
+updatecomplete = อัพเดตข้อมูลเรียบร้อย
