@@ -20,6 +20,4 @@ $smarty->debugging = false;
 $smarty->caching = true;
 $smarty->cache_lifetime = 120;
 
-$smarty->assign("username","test");
-
 $smarty->display('index.tpl');

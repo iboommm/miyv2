@@ -132,10 +132,19 @@ body {
     }
 }
 @media only screen and (min-width: 768px) {
+    .title-admin {
+        margin-top: -40px;
+        margin-bottom: 40px;
+    }
     .img-logo {
         width: auto;
         height: 300px;
         float: right;
+    }
+    .fixed-width {
+        width: 900px;
+        margin: auto;
+        margin-top: 20px;
     }
     #content {
         position: relative !important;
@@ -182,5 +191,5 @@ body {
     0%   {margin-top:-500px;}
     100% {margin-top:0px;}
 }
-/* Animation */
 
+/* Animation */
