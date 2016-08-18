@@ -10,10 +10,6 @@
         
         private $key;
         
-        function __contruct($key){
-            $this->setKeyAPI($key);
-        }
-        
         public function setKeyAPI($key) {
             $this->key = $key;
         }
@@ -22,15 +18,18 @@
             return $this->key;
         }
         
-        private function checkAPIkey() {
-            if(!$_session['key-log']) {
+        public function checkAPIkey() {
+            if(!$_SESSION['key-log']) {
                 return false;
             }else {
-                if($_session['key-log'] == $this->$key ) {
-                    return 1;
+                if($_SESSION['key-log'] == $this->key ) {
+                    return true;
                 }
                 return false;
             }
+        }
+        public function getSetting() {
+            
         }
         
         

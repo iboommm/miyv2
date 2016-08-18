@@ -1,0 +1,76 @@
+[[include file="admin/header.html"]]
+[[config_load file="lang/thai.lang" section="admin"]]
+<style>
+    body {
+        margin : 0px !important;
+    }
+</style>
+<div ng-app="adminApp">
+    <div ng-controller="adminController as controller">
+        <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+            <div class="container-fluid container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">
+                        <img src="images/default/static/logo2.png" width="25px" alt="">
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="admin.php"><span class="fa fa-home"></span> Home</a></li>
+                        <li><a href="#"><span class="fa fa-user"></span> Member</a></li>
+                        <li><a href="#"><span class="fa fa-edit"></span> Blog</a></li>
+                        <li><a href="#"><span class="fa fa-desktop"></span> Module</a></li>
+                    </ul>
+                    <p class="navbar-text navbar-right">Signed in as <span class="fa fa-user"></span> [[$username]] </p>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">[[#generalSetting#]]</div>
+                <div class="panel-body">
+                        <table class="table table-hover">
+                            <tr>
+                                <td>[[#title#]] : </td>
+                                <td><input type="text" ng-model="controller.title" class="form-control" placeholder="[[#enterValue#]] [[#title#]]"></td>
+                            </tr>
+                            <tr>
+                                <td>[[#tag#]]</td>
+                                <td><input type="text" ng-model="controller.tag" class="form-control" placeholder="[[#enterValue#]] [[#tag#]]"></td>
+                            </tr>
+                            <tr>
+                                <td>[[#switch#]]</td>
+                                <td>
+                                    <select name="switch" ng-model="controller.switch" class="form-control">
+                                        <option value="0">[[#off#]]</option>
+                                        <option value="1">[[#on#]]</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button class="btn btn-primary" ng-click="controller.update()"><span class="fa fa-check-circle"></span> [[#update#]]</button>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/admin/admin.js"></script>
+<script type="text/javascript" src="js/admin/admin.service.js"></script>
+
+[[include file="admin/footer.html"]]

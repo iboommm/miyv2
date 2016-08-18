@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^core/logging$ configs/core/login.php [L]
+RewriteRule ^core/apijson$ configs/core/apijson.php [L]
+RewriteRule ^core/save$ configs/core/save.php [L]
