@@ -2,6 +2,11 @@ var app = angular.module("adminApp",[]);
 
 app.controller("adminController",['$scope', 'adminService', function ($scope , adminService) {
     
+    angular.element(document).ready(function () {
+            $("#err").hide();
+            $("#cpt").hide();
+    });
+    
     var admin = this;
     
     admin.adminService = adminService;
@@ -36,9 +41,7 @@ app.controller("adminController",['$scope', 'adminService', function ($scope , a
         admin.result = adminService.updateSetting(admin.ar);
         admin.result.then(
             function(respond) {
-                if(respond) {
-                    console.log(respond.data);
-                }
+                admin.showAlert(respond.data);
             }
         )
     }
@@ -47,6 +50,19 @@ app.controller("adminController",['$scope', 'adminService', function ($scope , a
        admin.show();
     });
     
+    admin.showAlert = function(data) {
+        if(data == 1) {
+            $("#cpt").show();
+            setTimeout(function() {
+                $("#cpt").hide();
+            },2000);
+        }else {
+            $("#err").show();
+            setTimeout(function() {
+                $("#err").hide();
+            },2000);
+        }
+    }
     
     
 }]);
