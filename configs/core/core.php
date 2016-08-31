@@ -5,9 +5,7 @@ if(!defined("CORE_MIY")) {
     exit("Access Denied");
 }
 
-require_once 'cons.php';
 require_once 'database.php';
-require_once 'security.php';
 require_once 'thaidate.php';
 
 
@@ -39,8 +37,13 @@ class Core {
         $accept = base64_decode($access);
         $data = explode(",",$accept);
         $username = base64_decode($data[0]);
-        $password = base64_decode($data[1]);
-        $condition = " `username` LIKE '".$username."' AND `password` LIKE '".$password."'";
+        $password = md5(base64_decode($data[1]));
+        $mode = $data[2];
+        if($mode == "admin") {
+            $condition = " `username` LIKE '".$username."' AND `password` LIKE '".$password."' AND `group_id` = 1";
+        }else {
+            $condition = " `username` LIKE '".$username."' AND `password` LIKE '".$password."'";
+        }
         $database = new Database();
         $login = [
             "table" => "member",
@@ -55,10 +58,16 @@ class Core {
             $_SESSION['user'] = $user['username'];
             $key = $_SESSION['key-log'];
             $_SESSION['id'] = $id = $user['id'];
-            $sql = "UPDATE `member` SET `sesLogin` = '$key' WHERE `member`.`id` = $id;";
-            $updateSession = $database->query($sql);
+            $ar['sesLogin'] = $key;
+            $_SESSION['log'] = $ar['log'] = session_id();
+            $setUpdate = $database->update("member",$ar,"`id` = $id;");
+            return true;
+//            $sql = "UPDATE `member` SET `sesLogin` = '$key' WHERE `member`.`id` = $id;";
+//            $updateSession = $database->query($sql);
+        }else {
+            return false;
         }
-        return true;
+        
     }
     
     public function checkLogSession() {
@@ -78,7 +87,13 @@ class Core {
         }
     }
     
-    
+    public function memberCheckPassword($id,$oldpassword) {
+        $sql = "SELECT `id`, `password` FROM `member` WHERE `id` = $id AND `password` LIKE '$oldpassword'";
+        $database = new Database();
+        $query = $database->query($sql);
+        return $database->rows($query);
+        
+    }
     
 }
 
