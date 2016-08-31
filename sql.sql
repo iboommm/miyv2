@@ -33,10 +33,16 @@ CREATE TABLE IF NOT EXISTS `blog` (
   `status` int(11) DEFAULT NULL,
   `post_by` int(11) DEFAULT NULL,
   `cat_by` int(11) DEFAULT NULL,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `post_by` (`post_by`),
   KEY `cat_by` (`cat_by`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=17 ;
+
+--
+-- dump ตาราง `blog`
+--
+
 
 -- --------------------------------------------------------
 
@@ -47,9 +53,18 @@ CREATE TABLE IF NOT EXISTS `blog` (
 CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11 ;
+
+--
+-- dump ตาราง `category`
+--
+
+INSERT INTO `category` (`id`, `name`, `status`) VALUES
+(1, 'ทั่วไป ', 1),
+(9, 'test', 1),
+(10, 'test2', 1);
 
 -- --------------------------------------------------------
 
@@ -70,10 +85,10 @@ CREATE TABLE IF NOT EXISTS `group` (
 --
 
 INSERT INTO `group` (`id`, `name`, `color`, `img`) VALUES
-(1, 'Administrator', NULL, NULL),
-(2, 'Moderator', NULL, NULL),
-(3, 'Member', NULL, NULL),
-(4, 'Ban', NULL, NULL);
+(1, 'Administrator', '#000', ' '),
+(2, 'Moderator', '#000', ' '),
+(3, 'Member', '#000', ' '),
+(4, 'Ban', '#000', ' ');
 
 -- --------------------------------------------------------
 
@@ -87,16 +102,20 @@ CREATE TABLE IF NOT EXISTS `member` (
   `password` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `email` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
+  `sesLogin` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `log` text COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`),
   KEY `group_id` (`group_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=9 ;
 
 --
 -- dump ตาราง `member`
 --
 
-INSERT INTO `member` (`id`, `username`, `password`, `email`, `group_id`) VALUES
-(1, 'Admin', '000', 'test@test.com', 1);
+INSERT INTO `member` (`id`, `username`, `password`, `email`, `group_id`, `sesLogin`, `log`) VALUES
+(1, 'Admin', 'c6f057b86584942e415435ffb1fa93d4', 'test@test.com', 1, '9235626', 'tb7dt48rnft5jceih2eea0uh43'),
 
 -- --------------------------------------------------------
 
@@ -136,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `setting` (
 --
 
 INSERT INTO `setting` (`id`, `title`, `tag`, `switch`) VALUES
-(1, 'Title', 'tag', 1);
+(1, 'ทดสอบหัวเว็บไซต์', 'แท็ก1,แท็ก1,แท็ก1,แท็ก1,แท็ก1', 1);
 
 --
 -- Constraints for dumped tables
