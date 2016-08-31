@@ -14,21 +14,31 @@
     }
     
     $access = base64_decode($request->access);
-    
-    if($access == "setting,0") {
-        $access = "setting";
-    }
 
+    $access = explode(",",$access);
+    
+    $modules = array(null,'setting', 'group','category','member','blog');
+    $parameter = $access[1];
+    $module = in_array($access[0], $modules) ? $access[0] : $modules[0];
+    $ar['table'] = "$module";
+        
+    if($module == "member" && $parameter != "0") {
+        $ar['fields'] = "`id`, `username`, `password`, `email`, `group_id` ";
+        $ar["condition"] = "`username` LIKE '$parameter'";
+    }
+    
+    
     $database = new Database();
     
-    $ar = array('table' => "$access");
-    $select = $database->select($ar);
-    $data = $database->get($select);
     
-    echo json_encode($data);
+    $select = $database->select($ar);
+    
+    $resultSet = array();
+    while($data = $database->get($select)) {
+        $resultSet[] = $data;
+    }
 
-
-
+    echo json_encode($resultSet);
     
 
 

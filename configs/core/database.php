@@ -29,7 +29,7 @@ class database {
             'limit' => 1000
         );
         $options = array_merge($default, $options);
-        $sql = "SELECT {$options['fields']} FROM {$options['table']} WHERE {$options['condition']} ORDER BY {$options['order']} LIMIT {$options['limit']}";
+        $sql = "SELECT {$options['fields']} FROM `{$options['table']}` WHERE {$options['condition']} ORDER BY {$options['order']} LIMIT {$options['limit']}";
         return mysqli_query($this->con, $sql);
     }
 
@@ -92,6 +92,10 @@ class database {
 
     function insert_id() {
         return mysqli_insert_id($this->con);
+    }
+    
+    function multi_query($sql) {
+        return mysqli_multi_query($this->con, $sql);
     }
 
     function free($query) {

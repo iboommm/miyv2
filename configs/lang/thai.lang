@@ -1,8 +1,11 @@
 [admin]
 username = ชื่อผู้ใช้
 password = รหัสผ่าน
+email = อีเมล์
 login_btn = เข้าสู่ระบบ
 back_btn = กลับ
+
+
 generalSetting = ตั้งค่าทั่วไป
 title = หัวเว็บ
 tag = แท็ก
@@ -10,9 +13,44 @@ switch = เปิดปิดเว็บ
 off = ปิด
 on = เปิด
 update = อัพเดต
+add = เพิ่ม
+edit = แก้ไข
+remove = ลบ
+close = ปิด
+cancel = ยกเลิก
 enterValue = กรอกค่า 
 err = ข้อผิดพลาด
 errloging = ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
 errnone = อัพเดตข้อมูลผิดพลาด
+errusernotfound = ไม่พบสมาชิก
+erraddBlog = ไม่สามารถเพิ่มบล็อกได้
+addBlogComplate = เพิ่มบล็อกสำเร็จ
 complete = เสร็จสิ้น
 updatecomplete = อัพเดตข้อมูลเรียบร้อย
+memberSetting = ตั้งค่าสมาชิก
+addMember = เพิ่มสมาชิก
+editMember = แก้ไขสมาชิก
+banMember = แบนสมาชิก
+groupUser = กลุ่มสมาชิก
+resetValue = รีเซ็ต
+searchMember = ค้นหาสมาชิก
+manageMember = จัดการสมาชิก
+banUser = แบนผู้ใช้
+unBanUser = ปลดแบน
+
+addBlog = เพิ่มบล็อก
+editBlog = แก้ไขบล็อก
+manageBlog = จัดการบล็อก
+titleArticle = หัวข้อบล็อก
+category = หมวดหมู่
+mngBlog = จัดการบล็อก
+groupBlog = จัดการกลุ่ม
+addCategory = เพิ่มหมวดหมู่
+editBlog = แก้ไขบล็อก
+nameGroup = ชื่อกลุ่ม
+manageBlog = จัดการบล็อก
+disable = ปิดการใช้งาน
+hide = ซ่อน
+show = แสดง
+
+confirmToRemoveThis = ยืนยันการลบ?

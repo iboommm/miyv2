@@ -1,0 +1,154 @@
+[[include file="admin/header.html"]] 
+[[config_load file="lang/thai.lang" section="admin"]]
+<div ng-init="controller.getGroup()"></div>
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading">[[#memberSetting#]]</div>
+        <div class="panel-body">
+            <div class="col-sm-4">
+                <div class="list-group">
+                    <a href="#addMember" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetState()"><span class="fa fa-plus"></span> [[#addMember#]]</a>
+                    <a href="#editMember" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetState()"><span class="fa fa-edit"></span> [[#editMember#]]</a>
+                    <a href="#banMember" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetState()"><span class="fa fa-remove"></span> [[#banMember#]]</a>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="addMember">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><span class="fa fa-plus"></span> [[#addMember#]]</div>
+                            <div class="panel-body">
+                                <form action="javascript:;">
+                                    <div class="form-group">
+                                        <label for="username">[[#username#]] : </label>
+                                        <input type="text" ng-model="controller.tmpMember.username" class="form-control" placeholder="[[#enterValue#]] [[#username#]]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">[[#password#]] : </label>
+                                        <input type="password" ng-model="controller.tmpMember.password" class="form-control" placeholder="[[#enterValue#]] [[#password#]]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">[[#email#]] : </label>
+                                        <input type="text" class="form-control" ng-model="controller.tmpMember.email" placeholder="[[#enterValue#]] [[#email#]]">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="username">[[#groupUser#]] : </label>
+                                        <select class="form-control" id="" ng-model="controller.tmpMember.group">
+                                            <option value="0">-- Select --</option>
+                                            <option ng-repeat="a in controller.group" value="{{a.id}}">{{a.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary" ng-click="controller.addMember();"><span class="fa fa-plus"></span> [[#addMember#]]</button>
+                                        <button class="btn btn-danger" type="reset"><span class="fa fa-plus"></span> [[#resetValue#]]</button>
+                                    </div>
+                                    <div class="alert alert-danger" role="alert">[[#err#]] : [[#errnone#]]</div>
+                                    <div class="alert alert-success" role="alert">[[#complete#]] : [[#updatecomplete#]]</div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="editMember">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><span class="fa fa-edit"></span> [[#editMember#]]</div>
+                            <div class="panel-body">
+                                <h4>[[#searchMember#]]</h4>
+                                <form action="javascript:;">
+                                    <div class="form-group">
+                                        <input type="text" ng-model="controller.search" class="form-control" placeholder="[[#enterValue#]] [[#username#]]" >
+                                    </div>
+                                    <button class="btn btn-primary" ng-click="controller.getMember()" >[[#searchMember#]]</button>
+                                </form>
+                                <div class="alert alert-danger" role="alert">[[#err#]] : [[#errusernotfound#]]</div>
+                                <div class="container col-md-12">
+                                    <br>
+                                    <table class="table table-hover">
+                                        <tr ng-repeat="a in controller.memberSearch">
+                                            <td class="col-xs-9">{{ a.username }}</td>
+                                            <td class="col-xs-3">
+                                                <button class="btn btn-primary" ng-click="controller.editMember($index)"><span class="fa fa-edit"></span> [[#edit#]] </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="banMember">
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><span class="fa fa-remove"></span> [[#banMember#]]</div>
+                            <div class="panel-body">
+                                <h4>[[#searchMember#]]</h4>
+                                <form action="javascript:;">
+                                    <div class="form-group">
+                                        <input type="text" ng-model="controller.search" class="form-control" placeholder="[[#enterValue#]] [[#username#]]">
+                                    </div>
+                                    <button class="btn btn-primary" ng-click="controller.getMember()">[[#searchMember#]]</button>
+                                </form>
+                                <div class="alert alert-danger" role="alert">[[#err#]] : [[#errusernotfound#]]</div>
+                                <div class="container col-md-12">
+                                    <br>
+                                    <table class="table table-hover">
+                                        <tr ng-repeat="a in controller.memberSearch">
+                                            <td class="col-xs-9">{{ a.username }} [{{ controller.group[a.group_id-1].name}}]</td>
+                                            <td class="col-xs-3">
+                                                <button class="btn btn-danger" ng-hide="controller.banSatus == true" ng-click="controller.banMember(a.id)" ><span class="fa fa-remove"></span> [[#banUser#]] </button>
+                                                <button class="btn btn-success" ng-hide="controller.banSatus == false" ng-click="controller.unBanMember(a.id)" ><span class="fa fa-check"></span> [[#unBanUser#]] </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="manageMember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">[[#manageMember#]]</h4>
+            </div>
+            <div class="modal-body">
+                <form action="javascript:;">
+                    <div class="form-group">
+                        <label for="username">[[#username#]] : </label>
+                        <input type="text" ng-disabled="true" ng-model="controller.tmpMember.username" class="form-control" placeholder="[[#enterValue#]] [[#username#]]">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">[[#password#]] : </label>
+                        <input type="password" ng-model="controller.tmpMember.password" class="form-control" placeholder="[[#enterValue#]] [[#password#]]">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">[[#email#]] : </label>
+                        <input type="text" class="form-control" ng-model="controller.tmpMember.email" placeholder="[[#enterValue#]] [[#email#]]">
+                    </div>
+                    <div class="form-group">
+                        <label for="username">[[#groupUser#]] : {{controller.tmpMember.group}}</label>
+                        <select class="form-control" id="" ng-model="controller.tmpMember.group_id">
+                            <option ng-repeat="a in controller.group" value="{{a.id}}">{{a.name}}</option>
+                        </select>
+                    </div>
+                    <div class="alert alert-danger" role="alert">[[#err#]] : [[#errnone#]]</div>
+                    <div class="alert alert-success" role="alert">[[#complete#]] : [[#updatecomplete#]]</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" ng-click="controller.updateMember();">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="js/admin/admin.js"></script>
+<script type="text/javascript" src="js/admin/admin.service.js"></script>
+
+[[include file="admin/footer.html"]]

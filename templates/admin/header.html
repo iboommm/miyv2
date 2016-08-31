@@ -1,19 +1,55 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    
+
     <title>MIY System Control Panel</title>
-    
+
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/miyv2.css" />
     <link rel="stylesheet" href="css/font-awesome.min.css" />
-    
+
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
-    <script type="text/javascript"src="js/tether.min.js"></script>
+    <script type="text/javascript" src="js/tether.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
-    
+
 </head>
+
 <body>
+    <style>
+        body {
+            margin: 0px !important;
+        }
+    </style>
+    <div ng-app="adminApp">
+        <div ng-controller="adminController as controller">
+            <nav class="navbar navbar-default navbar-static-top navbar-inverse">
+                <div class="container-fluid container">
+                   
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">
+                            <img src="images/default/static/logo2.png" width="25px" alt="">
+                        </a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a href="admin.php"><span class="fa fa-home"></span> Home</a></li>
+                            <li><a href="admin.php?mode=member"><span class="fa fa-user"></span> Member</a></li>
+                            <li><a href="admin.php?mode=blog"><span class="fa fa-edit"></span> Blog</a></li>
+                            <li><a href="admin.php?mode=module"><span class="fa fa-desktop"></span> Module</a></li>
+                        </ul>
+                        <p class="navbar-text navbar-right">Signed in as <span class="fa fa-user"></span> [[$username]] </p>
+                    </div>
+                </div>
+            </nav>

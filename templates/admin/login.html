@@ -1,4 +1,27 @@
-[[include file="admin/header.html"]]
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>MIY System Control Panel</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/miyv2.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="js/angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/tether.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
+
+</head>
+
+<body>
+    <style>
+    </style>
 [[config_load file="lang/thai.lang" section="admin"]]
 
 <div ng-app="loginApp">
@@ -24,7 +47,7 @@
                             <input type="password" class="form-control" ng-model="controller.password" name="password" id="password" placeholder="Enter Password">
                         </fieldset>
                         <fieldset class="form-group">
-                            <button class="btn btn-default btn-login" ng-click="controller.send()"><span class="fa fa-chevron-circle-right"></span> [[#login_btn#]]</button>
+                            <button class="btn btn-default btn-login" ng-click="controller.send('admin')"><span class="fa fa-chevron-circle-right"></span> [[#login_btn#]]</button>
                             <button class="btn btn-danger btn-login" ng-click="login.back();"><span class="fa fa-arrow-left"></span> [[#back_btn#]]</button>
                         </fieldset>
                         <div class="alert alert-danger" id="errloging" role="alert">[[#err#]] : [[#errloging#]]</div>
