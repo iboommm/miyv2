@@ -79,6 +79,10 @@ class database {
           return false;
         }
     }
+    
+    function total($table_name) {
+        return $this->query("SELECT COUNT(*) FROM $table_name;");
+    }
 
     function realsql($unescaped_string) {
         return mysqli_real_escape_string($this->con, $unescaped_string);

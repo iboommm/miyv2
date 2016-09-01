@@ -76,8 +76,22 @@
             $ar['post_by'] = $_SESSION['id'];
             $ar['status'] = 1;
             $date = new DateTime();
-            $ar['time'] = $date->format('Y-m-d H:i:sP');
+            $ar['time'] = $date->format('Y-m-d H:i:s');
             echo $database->insert("blog",$ar);
+        }elseif($parameter == "update") {
+            $ar['title'] = $data[2]; 
+            $ar['cat_by'] = $data[3]; 
+            $ar['data'] = base64_decode($data[4]); 
+            $ar['post_by'] = $_SESSION['id'];
+            $ar['status'] =  $data[5];
+            $id = $ar['id'] =  $data[6];
+            $date = new DateTime();
+            $ar['time'] = $date->format('Y-m-d H:i:s');
+//            echo $database->insert("blog",$ar);
+            echo $database->update("blog",$ar,"id=$id");
+        }elseif($parameter == "remove") {
+            $id = $data[2]; 
+            echo $database->delete("blog","id=$id");
         }
         
 

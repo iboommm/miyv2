@@ -52,14 +52,17 @@ app.controller("adminController", ['$scope', 'adminService', function($scope, ad
         )
     }
     
-    admin.getBlogList = function() {
+    admin.getBlogList = function(page) {
         admin.blogList = [];
-        admin.connect = admin.adminService.getBlogList();
+        admin.connect = admin.adminService.getBlogList(page);
         admin.connect.then(
             function(respond) {
                 if (respond) {
                     admin.blogList = respond.data;
+                    admin.getTotalBlog(page);
+                    
                     $("#table-mngblog").removeClass("hidden");
+                    $(".page-control").removeClass("hidden");
                 }
             }
         )
@@ -92,6 +95,47 @@ app.controller("adminController", ['$scope', 'adminService', function($scope, ad
         )
     }
     
+    admin.editBlog = function(data) {
+        admin.tmpBlog = admin.blogList[data];
+        $('#editorMngBlog').trumbowyg('destroy');
+        $('#editorMngBlog').trumbowyg({
+        plugins: ['pasteimage'],
+        btnsDef: {
+            // Customizables dropdowns
+            image: {
+                dropdown: ['insertImage', 'upload', 'base64', 'noEmbed'],
+                ico: 'insertImage'
+            }
+        },
+        btns: [
+            ['viewHTML'],
+            ['undo', 'redo'],
+            ['formatting'],
+            'btnGrp-design', ['link'],
+            ['image'],
+            'btnGrp-justify',
+            'btnGrp-lists', ['foreColor', 'backColor'],
+            ['preformatted'],
+            ['emoji'],
+            ['horizontalRule'],
+            ['fullscreen']
+        ],
+        });
+        $('#editorMngBlog').trumbowyg('html',admin.tmpBlog['data']);
+        $("#editBlog").modal('show');
+    }
+    
+    admin.updateBlog = function() {
+        admin.tmpBlog.data = $('#editorMngBlog').trumbowyg('html');
+        admin.connect = adminService.updateBlog(admin.tmpBlog);
+        admin.connect.then(
+            function(respond) {
+//               console.log(respond.data);
+                admin.showAlert(respond.data);
+            }
+        )
+    }
+    
     admin.removeCategory = function(data) {
         //console.log(admin.category[data].id);
         if(admin.category[data].id != null) {
@@ -119,6 +163,16 @@ app.controller("adminController", ['$scope', 'adminService', function($scope, ad
         if(admin.modeRemove == "cate") {
             admin.removeCategory(admin.tmpID);
             $("#popupRemove").modal("hide");
+        }else if(admin.modeRemove == "blog") { 
+//            console.log(admin.tmpID);
+            admin.result = adminService.removeBlog(admin.tmpID);
+            admin.result.then(
+                function(respond) {
+                    admin.getPage(admin.current_page);
+                    admin.getTotalBlog(); 
+                    $("#popupRemove").modal("hide");
+                }
+            );
         }else {
             return;
         }
@@ -223,7 +277,6 @@ app.controller("adminController", ['$scope', 'adminService', function($scope, ad
             }
         )
     }
-
     
     admin.updateMember = function() {
         admin.result = adminService.updateMember(admin.tmpMember);
@@ -246,6 +299,87 @@ app.controller("adminController", ['$scope', 'adminService', function($scope, ad
                 }
             )
             admin.tmpMember = {username:"",password:"",email:"",group:"0"};
+        }
+    }
+    
+    
+    admin.pagination = [];
+    admin.total_blog = 0;
+    admin.num_per_page = 10;
+    admin.current_page = 1;
+    admin.start = 0;
+    admin.end = 0;
+    admin.filtered = [];
+    admin.maxPage = 1;
+    admin.commentLength = 0;
+    
+    admin.getPage = function(page) {
+        admin.current_page = page;
+        admin.pagination = [];
+        
+        
+        var i=0;
+        for(i;i<(admin.total_blog/admin.num_per_page)+1;i++) {
+            admin.pagination.push(i);
+//            admin.maxPage = Math.floor((admin.total_comment/admin.num_per_page)+1);
+        }
+
+        
+        if(admin.total_blog == 0) {
+            admin.start = -1;
+            admin.end = 0;
+           
+        }else {
+            admin.start = (page * admin.num_per_page) - admin.num_per_page;
+            admin.end = admin.start + admin.num_per_page;
+        }
+
+    }
+            
+    admin.nextPage = function() {
+        if(admin.current_page == admin.maxPage) {
+            return;
+        }
+        admin.getPage(admin.current_page+1);
+        
+    }
+    
+    admin.getTotalBlog = function(page) {
+        admin.result = adminService.getTotalBlog();
+        admin.result.then(
+            function(respond) {
+                admin.total_blog = respond.data;
+//                console.log(admin.total_blog);
+                if(admin.total_blog%admin.num_per_page != 0) {
+                    admin.maxPage = Math.floor(admin.total_blog/admin.num_per_page)+1;
+                }else {
+                    admin.maxPage = Math.floor(admin.total_blog/admin.num_per_page);
+                }                
+                admin.getPage(page);
+            }
+        )
+    }
+    
+    admin.prevPage = function() {
+        if(admin.current_page == 1) {
+            return;
+        }
+         admin.getPage(admin.current_page-1);
+    }
+    
+    admin.pageActive = function(page) {
+        if(page == admin.current_page) {
+            return " active ";
+        }
+    }
+    
+    admin.filter = function(item) {
+        var tmp = admin.current_page;
+        if(item == 1 || item == admin.maxPage) {
+            return;
+        }
+        if(item == tmp || item == tmp-1 || item == tmp+1) {
+            return item;
         }
     }
 
