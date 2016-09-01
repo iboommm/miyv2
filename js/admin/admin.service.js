@@ -49,8 +49,14 @@ app.service('adminService', function($http) {
         return $http.post(url, parameter);
     }
     
-    admin.getBlogList = function() {
-        var parameter = {access : admin.utf8_to_b64('blog,0')};
+    admin.getBlogList = function(page) {
+        var parameter = {access : admin.utf8_to_b64('blog,page,'+page)};
+        var url = "core/apijson";
+        return $http.post(url, parameter);
+    }
+    
+    admin.getTotalBlog = function() {
+        var parameter = {access : admin.utf8_to_b64('blog,total')};
         var url = "core/apijson";
         return $http.post(url, parameter);
     }
@@ -67,6 +73,23 @@ app.service('adminService', function($http) {
         var cat_by = data.cat_by;
         var detail = data.data;
         var parameter = {access : admin.utf8_to_b64('blog,add,' + title + "," + cat_by + "," + detail)};
+        var url = "core/save";
+        return $http.post(url, parameter);
+    }
+    
+    admin.updateBlog = function(data) {
+        var title = data.title;
+        var cat_by = data.cat_by;
+        var detail = data.data;
+        var id = data.id;
+        var status = data.status;
+        var parameter = {access : admin.utf8_to_b64('blog,update,' + title + "," + cat_by + "," + admin.utf8_to_b64(detail) + "," + status + "," + id)};
+        var url = "core/save";
+        return $http.post(url, parameter);
+    }
+    
+    admin.removeBlog = function(id) {
+        var parameter = {access : admin.utf8_to_b64('blog,remove,'+id)};
         var url = "core/save";
         return $http.post(url, parameter);
     }

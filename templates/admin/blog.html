@@ -1,8 +1,7 @@
-[[include file="admin/header.html"]] 
-[[config_load file="lang/thai.lang" section="admin"]]
+[[include file="admin/header.html"]] [[config_load file="lang/thai.lang" section="admin"]]
 <link rel="stylesheet" href="css/trumbowyg.min.css">
 <div ng-init="controller.getCategory()"></div>
-<div ng-init="controller.getBlogList()"></div>
+<div ng-init="controller.getBlogList(1)"></div>
 <div class="col-md-8 col-md-offset-2">
     <div class="panel panel-default">
         <div class="panel-heading">[[#memberSetting#]]</div>
@@ -11,7 +10,7 @@
                 <div class="list-group">
                     <a href="#groupBlog" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetStateBlog()"><span class="fa fa-folder"></span> [[#category#]]</a>
                     <a href="#addBlog" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetStateBlog();controller.getCategory()"><span class="fa fa-plus"></span> [[#addBlog#]]</a>
-                    <a href="#MngBlog" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetStateBlog();controller.getBlogList()"><span class="fa fa-th-list"></span> [[#manageBlog#]]</a>
+                    <a href="#MngBlog" role="tab" data-toggle="tab" class="list-group-item" ng-click="controller.resetStateBlog();controller.getBlogList(1)"><span class="fa fa-th-list"></span> [[#manageBlog#]]</a>
                 </div>
             </div>
             <div class="col-sm-9">
@@ -53,17 +52,59 @@
                                     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                     </div>
                                 </div>
-                                <table class="table table-hover hidden" id="table-mngblog">
+                                <nav class="page-control hidden">
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="javascript:;" aria-label="Previous" ng-click="controller.prevPage()">
+                                                <span aria-hidden="true"><span class="fa fa-chevron-left"></span></span>
+                                            </a>
+                                        </li>
+                                        <li class="{{controller.pageActive(1) }}"><a ng-click="controller.getBlogList(1)" href="javascript:;">1</a></li>
+
+                                        <li ng-if="controller.current_page >= 4"><a href="javascript:;">...</a></li>
+
+                                        <li class="{{controller.pageActive(a) }}" ng-repeat="a in controller.pagination | filter: controller.filter"><a href="javascript:;" ng-click="controller.getBlogList(a)" ng-hide="">{{ a }}</a></li>
+                                        <li ng-if="controller.current_page <= controller.maxPage-3"><a href="javascript:;">...</a></li>
+                                        <li class="{{controller.pageActive(controller.maxPage) }}" ng-hide="controller.maxPage == 1"><a ng-click="controller.getBlogList(controller.maxPage)" href="javascript:;">{{controller.maxPage}}</a></li>
+
+                                        <li>
+                                            <a href="javascript:;" aria-label="Next" ng-click="controller.nextPage()">
+                                                <span aria-hidden="true"><span class="fa fa-chevron-right"></span></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                                <table class="table table-hover table-striped hidden" id="table-mngblog">
                                     <tr ng-repeat="blog in controller.blogList">
-                                        <td width="60%">{{blog.title}}</td>
+                                        <td width="60%">{{blog.id}} : {{blog.title}}</td>
                                         <td width="40%">
-                                            <button class="btn btn-warning" ng-show="blog.status == 1">[[#hide#]]</button>
-                                            <button class="btn btn-success" ng-show="blog.status == 0">[[#hide#]]</button>
-                                            <button class="btn btn-primary">[[#edit#]]</button>
-                                            <button class="btn btn-danger">[[#remove#]]</button>
+                                            <button class="btn btn-primary" ng-click="controller.editBlog($index)">[[#edit#]]</button>
+                                            <button class="btn btn-danger" ng-click="controller.showPopupRemove(blog.id,'blog')">[[#remove#]]</button>
                                         </td>
                                     </tr>
                                 </table>
+                                <nav class="page-control hidden">
+                                    <ul class="pagination">
+                                        <li>
+                                            <a href="javascript:;" aria-label="Previous" ng-click="controller.prevPage()">
+                                                <span aria-hidden="true"><span class="fa fa-chevron-left"></span></span>
+                                            </a>
+                                        </li>
+                                        <li class="{{controller.pageActive(1) }}"><a ng-click="controller.getPage(1)" href="javascript:;">1</a></li>
+
+                                        <li ng-if="controller.current_page >= 4"><a href="javascript:;">...</a></li>
+
+                                        <li class="{{controller.pageActive(a) }}" ng-repeat="a in controller.pagination | filter: controller.filter"><a href="javascript:;" ng-click="controller.getPage(a)" ng-hide="">{{ a }}</a></li>
+                                        <li ng-if="controller.current_page <= controller.maxPage-3"><a href="javascript:;">...</a></li>
+                                        <li class="{{controller.pageActive(controller.maxPage) }}" ng-hide="controller.maxPage == 1"><a ng-click="controller.getPage(controller.maxPage)" href="javascript:;">{{controller.maxPage}}</a></li>
+
+                                        <li>
+                                            <a href="javascript:;" aria-label="Next" ng-click="controller.nextPage()">
+                                                <span aria-hidden="true"><span class="fa fa-chevron-right"></span></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -78,7 +119,7 @@
                                 </div>
 
                                 <form action="javascript:;">
-                                    <table class="table table-hover hidden" id="table-category" >
+                                    <table class="table table-hover hidden" id="table-category">
                                         <tr>
                                             <td width="60%">[[#nameGroup#]]</td>
                                             <td width="40%">[[#manageBlog#]]</td>
@@ -117,47 +158,58 @@
                 </div>
                 <div class="modal-body">
                     <form action="javascript:;">
-                                    <div class="form-group">
-                                        <label for="title">[[#titleArticle#]]</label>
-                                        <input type="text" class="form-control" ng-model="controller.tmpBlog.title" placeholder="[[#enterValue#]] [[#titleArticle#]]">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="title">[[#category#]]</label>
-                                        <select class="form-control" ng-model="controller.tmpBlog.cat_by">
-                                            <option ng-repeat="cat in controller.category" value="{{cat.id}}">{{cat.name}}</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <textarea id="editorAddBlog" cols="30" rows="10"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <button class="btn btn-primary" ng-click="controller.addBlog();"><span class="fa fa-plus"></span> [[#addBlog#]]</button>
-                                        <button class="btn btn-danger" type="reset"><span class="fa fa-plus"></span> [[#resetValue#]]</button>
-                                    </div>
-                                    <div class="alert alert-danger" role="alert">[[#err#]] : [[#erraddBlog#]]</div>
-                                    <div class="alert alert-success" role="alert">[[#complete#]] : [[#addBlogComplate#]]</div>
-                                </form>
+                        <div class="form-group">
+                            <label for="title">[[#titleArticle#]]</label>
+                            <input type="text" class="form-control" ng-model="controller.tmpBlog.title" placeholder="[[#enterValue#]] [[#titleArticle#]]">
+                        </div>
+                        <div class="form-group">
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="title">[[#category#]]</label>
+                                <select class="form-control" ng-model="controller.tmpBlog.cat_by">
+                                    <option ng-repeat="cat in controller.category" value="{{cat.id}}">{{cat.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <label for="title">[[#status#]]</label>
+                                <select class="form-control" ng-model="controller.tmpBlog.status">
+                                    <option value="0">[[#hide#]]</option>
+                                    <option value="1">[[#show#]]</option>
+                                </select>
+                            </div>
+                        </div>
+                        &nbsp;
+                        </div>
+                        <div class="form-group" style="margin-top:-40px;">
+                            <textarea id="editorMngBlog" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="alert alert-danger" role="alert">[[#err#]] : [[#errUpdateBlog#]]</div>
+                        <div class="alert alert-success" role="alert">[[#complete#]] : [[#updateBlogComplate#]]</div>
+                    </form>
+                    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" ng-click="controller.updateMember();">Save changes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">[[#close#]]</button>
+                    <button type="button" class="btn btn-primary" ng-click="controller.updateBlog();">[[#update#]]</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="popupRemove" tabindex="-1" role="dialog" >
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-     <div class="modal-header">
-         <h4 class="modal-title">[[#confirmToRemoveThis#]]</h4>
-   </div>
-     <div class="modal-footer">
-      <button class="btn btn-danger" ng-click="controller.confirmRemove()">[[#remove#]]</button>
-      <button class="btn btn-primary" data-dismiss="modal">[[#cancel#]]</button>
-      </div>
+    <div class="modal fade" id="popupRemove" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">[[#confirmToRemoveThis#]]</h4>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" ng-click="controller.confirmRemove()">[[#remove#]]</button>
+                    <button class="btn btn-primary" data-dismiss="modal">[[#cancel#]]</button>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 </div>
 </div>
 
