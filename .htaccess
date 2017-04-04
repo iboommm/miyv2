@@ -1,5 +1,0 @@
-RewriteEngine On
-RewriteRule ^core/logging$ configs/core/admin/login.php [L]
-RewriteRule ^core/apijson$ configs/core/apijson.php [L]
-RewriteRule ^core/save$ configs/core/admin/save.php [L]
-RewriteRule ^core/update$ configs/core/admin/updateObjects.php [L]
