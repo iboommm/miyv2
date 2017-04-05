@@ -21,4 +21,22 @@ angular.module('miyv2', ['ui.router','oc.lazyLoad'])
               }]
             }
         })
-    })
+        .state('login', {
+              url: "/login",
+              views: {
+                "content": {
+                  controller: 'LoginController',
+                  controllerAs: 'loginController',
+                  templateUrl: 'views/login/login.html'
+                }
+              },
+              resolve: {
+                loadController: ['$ocLazyLoad', function($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/login/login.js');
+                }]
+                  ,loadService: ['$ocLazyLoad', function($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/login/login.service.js');
+                }]
+              }
+          })
+    }) 
