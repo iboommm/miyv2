@@ -1,12 +1,12 @@
-angular.module('miyv2').service('homeService',['$http','$q',function($http,$q){
+angular.module('miyv2').service('appService',['$http','$q',function($http,$q){
     var self = this;
 
 
     var deferObject,serviceMethods = {
         //TODO your code here
-        getToken : function(){
-           var params = {page: "admin"};
-            var promise = $http.get("api/token/get",params),
+        getToken : function(page,token){
+            var params = {page: page,token:token};
+            var promise = $http.post("api/token",params),
                 deferObject = deferObject || $q.defer();
 
             promise.then(

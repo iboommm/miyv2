@@ -1,7 +1,18 @@
-angular.module('miyv2', ['ui.router','oc.lazyLoad'])
+angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'])
 
-    .config(function ($stateProvider, $locationProvider, $urlRouterProvider, $ocLazyLoadProvider) {
+    .config(function ($stateProvider, $locationProvider, $urlRouterProvider, $ocLazyLoadProvider,NotificationProvider) {
       $urlRouterProvider.otherwise('/home');
+
+        NotificationProvider.setOptions({
+            delay: 10000,
+            startTop: 20,
+            startRight: 10,
+            verticalSpacing: 20,
+            horizontalSpacing: 20,
+            positionX: 'left',
+            positionY: 'top'
+        });
+
       $stateProvider
       .state('home', {
             url: "/home",
@@ -39,4 +50,4 @@ angular.module('miyv2', ['ui.router','oc.lazyLoad'])
                 }]
               }
           })
-    }) 
+    })
