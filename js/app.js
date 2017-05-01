@@ -1,4 +1,4 @@
-angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'])
+var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'])
 
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider, $ocLazyLoadProvider,NotificationProvider) {
       $urlRouterProvider.otherwise('/home');
@@ -70,3 +70,9 @@ angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'
                 }
             })
     })
+
+    app.controller("appController",["$scope",'$sessionStorage',function($scope,$sessionStorage) {
+      var app = $scope;
+      app.storage = $sessionStorage;
+      // console.log($sessionStorage.title);
+    }]);

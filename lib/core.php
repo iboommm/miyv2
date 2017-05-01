@@ -54,6 +54,20 @@ class Core extends Medoo {
         }
     }
 
+    public function getTitle($data,$token,$id) {
+      $id = base64_decode($id);
+      if ($this->database->has("account", ["AND" => [
+            "username" => $id,
+        		"key_login" => "$token"
+        	]
+        ])) {
+          $datas = $this->database->get("setting","value",["name"=> "title"]);
+          return $datas;
+        } else {
+        	return "FALSE";
+        }
+    }
+
     public function getSetting($token,$id) {
       if($this->getToken("",$token,$id) == "TRUE") {
         $datas = $this->database->select("setting","*");

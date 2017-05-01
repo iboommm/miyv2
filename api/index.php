@@ -21,6 +21,13 @@
       echo $core->getToken($decode->page,$decode->token->token_key,$decode->token->id);
   });
 
+  Flight::route('POST /title', function(){
+      $rawData = file_get_contents("php://input");
+      $decode = json_decode($rawData);
+      $core = new Core();
+      echo $core->getTitle($decode->page,$decode->token->token_key,$decode->token->id);
+  });
+
   Flight::route('POST /setting', function(){
       $rawData = file_get_contents("php://input");
       $decode = json_decode($rawData);

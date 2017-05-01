@@ -18,9 +18,13 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     }
   }
 
+  String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
+
   app.storage = $sessionStorage.$default({
     token:'',
-    title:'',
+    title:'Admin',
     id:'',
     status:false
   });
@@ -32,9 +36,10 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
 
   app.changeMode = function(data) {
     app.mode = data;
-    console.log(data);
+    app.storage.title = data.capitalize() + " - Admin - " + app.storage.header ;
     app[data].get();
   }
+
   app.tmp = undefined;
 
   app.setting = {
@@ -46,7 +51,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
       // console.log(token);
       promise.then(
         function(responds) {
-          console.log(responds.data);
+          // console.log(responds.data);
           if(responds.data == "FALSE") {
             app.storage.status = false;
             app.storage.token = "";
@@ -54,10 +59,10 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
           }
           // console.log("responds.data" ,responds.data);
           $.each(responds.data, function(key,value) {
-            console.log(value.name);
+            // console.log(value.name);
             if(value.name == "title" || value.name == "caption") {
               app.setting[value.name] = value.value;
-              console.log("app.setting =>", app.setting);
+              // console.log("app.setting =>", app.setting);
             }
           });
           app.tmp = responds.data;
@@ -81,7 +86,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
 
       promise.then(
         function(responds) {
-          console.log("responds.data" ,responds.data);
+          // console.log("responds.data" ,responds.data);
           if(responds.data == "FALSE") {
             app.storage.status = false;
             app.storage.token = "";
@@ -114,12 +119,32 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   self.initial = function() {
 
     var page = 'admin';
+    console.log(app.storage.title);
     var token = {token_key :app.storage.token , id:app.storage.id};
     var promise = appService.getToken(page,token);
+    var getTitle = appService.getTitle(page,token);
+    getTitle.then(
+      function(responds) {
+        // console.log(responds.data);
+        if(responds.data == "FALSE") {
+          app.storage.status = false;
+          app.storage.token = "";
+          $state.go('login');
+        }
+        console.log(responds.data);
+        app.storage.header = responds.data;
+      }
+    )
+    getTitle.catch(
+      function(responds) {
+        console.log("---- Err ----");
+      }
+    )
+
     // console.log(token);
     promise.then(
       function(responds) {
-        console.log(responds.data);
+        // console.log(responds.data);
         if(responds.data == "FALSE") {
           app.storage.status = false;
           app.storage.token = "";
