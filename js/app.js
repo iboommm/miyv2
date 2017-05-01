@@ -50,4 +50,23 @@ angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'
                 }]
               }
           })
+
+          .state('admin', {
+                url: "/admin",
+                views: {
+                  "content": {
+                    controller: 'adminController',
+                    controllerAs: 'adminController',
+                    templateUrl: 'views/admin/admin.html'
+                  }
+                },
+                resolve: {
+                  loadController: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('views/admin/admin.js');
+                  }]
+                    ,loadService: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('views/admin/admin.service.js');
+                  }]
+                }
+            })
     })

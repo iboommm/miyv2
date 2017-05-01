@@ -1,0 +1,50 @@
+<nav class="navbar navbar-toggleable-md navbar-light bg-faded ">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <a class="navbar-brand" href="#">Admin</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Page</a>
+            </li>
+        </ul>
+        <button class="btn btn-outline-success my-2 my-sm-0"><i class="fa fa-sign-out"></i> Logout</button>
+    </div>
+</nav>
+
+<div class="container margin-top-25">
+    <div class="row justify-content-md-center">
+      <div class="col col-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fa fa-th-list"></i> Featured
+            </div>
+            <div class="card-block">
+                <ul class="list-group">
+                    <li class="list-group-item" ng-class="{'active' : mode == 'setting'}" ng-click="changeMode('setting')"><i class="fa fa-cog"></i> &nbsp;General</li>
+                    <li class="list-group-item" ng-class="{'active' : mode == 'seo'}" ng-click="changeMode('seo')"><i class="fa fa-globe"></i> &nbsp;SEO</li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        <div class="col col-8">
+        <div class="col-md-12 col-md-auto">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-{{ modeMap[mode].icon }}" aria-hidden="true"></i> {{ modeMap[mode].name }}
+                </div>
+                <div class="card-block">
+                  <div class="animated fadeIn" ng-include="modeMap[mode].url"></div>
+                </div>
+            </div>
+        </div>
+</div>
+    </div>

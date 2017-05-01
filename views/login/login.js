@@ -21,6 +21,7 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
 
   app.logout = function() {
     app.storage.status = false;
+    app.storage.token = '';
   }
 
   self.initial = function() {
@@ -68,6 +69,10 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
         console.log("---- Err ----");
       }
     )
+  }
+
+  app.go = function(page) {
+    $state.go(page);
   }
 
   self.initial();
