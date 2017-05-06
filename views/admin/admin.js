@@ -5,6 +5,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
 
   app.mode = "setting";
   app.section = "general";
+  app.status = [];
 
   app.modeMap = {
     "setting": {
@@ -51,6 +52,18 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     const token = {token_key :app.storage.token , id:app.storage.id};
     const promise = appService.getToken(page,token);
     const getTitle = appService.getTitle(page,token);
+    const getStatus = adminService.getStatus(page,token);
+    getStatus.then(
+      function(responds) {
+        if(responds != "false")
+          app.status = responds.data;
+      }
+    )
+    getStatus.catch(
+      function(responds) {
+        console.log("---- Err ----");
+      }
+    )
     getTitle.then(
       function(responds) {
         // console.log(responds.data);
@@ -104,7 +117,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.changeMode = function(data) {
     app.mode = data;
     app.storage.title = app.modeMap[data].name + " - Admin - " + app.storage.header ;
-    console.log(app.storage.title);
+    // console.log(app.storage.title);
     app[data].get();
   }
 
@@ -191,7 +204,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
             app.storage.token = "";
             $state.go('login');
           }
-          console.log("responds.data" ,responds.data);
+          // console.log("responds.data" ,responds.data);
           $.each(responds.data, function(key,value) {
             // console.log(value.name);
               app.seo[value.name] = value.value;
@@ -257,7 +270,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
             $state.go('login');
           }
           app.AccMgnt.find = "";
-          console.log("Member => ", responds.data);
+          // console.log("Member => ", responds.data);
           if(responds.data != "null") {
             app.AccMgnt.user = responds.data;
           }
@@ -311,7 +324,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
       repassword:"",
       bio:"",
       email:"",
-      status:1
+      status:2
     },
     add:function() {
       const token = {token_key :app.storage.token , id:app.storage.id};
@@ -337,7 +350,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
                 repassword:"",
                 bio:"",
                 email:"",
-                status:1
+                status:2
               }
             }else {
               Notification.error("Add Error");
@@ -398,6 +411,11 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     $state.go(page);
   }
 
+  app.getStatus = function(id) {
+    // console.log(app.status[id-1]);
+    return "<i class='fa fa-" + app.status[id-1].icon + " ' ></i> " + app.status[id-1].name;
+  }
+
   app.load = function(data) {
     app.section = data;
     if(data == "account") {
@@ -405,7 +423,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     }else if(data == "general") {
       app.changeMode('setting');
     }
-    console.log(app.section);
+    // console.log(app.section);
   }
 
   self.initial();

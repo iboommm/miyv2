@@ -87,6 +87,23 @@ angular.module('miyv2').service('adminService',['$http','$q',function($http,$q){
             return deferObject.promise;
 
         },
+        getStatus: function(data,token){
+            var params = {token,data};
+            // console.log("params =>", params);
+            var promise = $http.post("api/status",params),
+                deferObject = deferObject || $q.defer();
+
+            promise.then(
+                function(answer){
+                    deferObject.resolve(answer);
+                },
+                function(reason){
+                    deferObject.reject(reason);
+                }
+            );
+            return deferObject.promise;
+
+        },
 
 
     };

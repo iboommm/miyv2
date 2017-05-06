@@ -18,14 +18,12 @@
   </div>
   <div class="form-group">
     <label for="Bio"><i class="fa fa-address-card"></i> Bio </label>
-    <textarea class="form-control" ng-model="AccAdd.tmp.bio"></textarea>
+    <textarea class="form-control" ng-model="AccAdd.tmp.bio" placeholder="Bio"></textarea>
   </div>
   <div class="form-group">
     <label for="Status"><i class="fa fa-group"></i> Status </label>
     <select class="form-control" ng-model="AccAdd.tmp.status">
-      <option value="0">Ban</option>
-      <option value="1">Member</option>
-      <option value="2">Admin</option>
+      <option ng-repeat="level in status" ng-selected="level.id == AccAdd.tmp.status" value="{{ level.id }}">{{ level.name }}</option>
     </select>
   </div>
 
