@@ -236,29 +236,8 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     )
   }
 
-  app.login = function() {
-    var data = {username:app.username,password:app.password};
-    var token = app.storage.token;
-    var promise = loginService.login(data,token);
-    promise.then(
-      function(responds) {
-        var status = responds.data.status;
-        if(status) {
-          Notification.success('Login Success');
-          $("#form-login").addClass("animated flipOutX");
-          app.storage.status = true;
-          app.storage.token = responds.data.session;
-          app.storage.id = responds.data.username;
-        }else {
-          Notification.error('Username or Password is wrong!');
-        }
-      }
-    )
-    promise.catch(
-      function(responds) {
-        console.log("---- Err ----");
-      }
-    )
+  app.go = function(page) {
+    $state.go(page);
   }
 
   self.initial();
