@@ -78,6 +78,17 @@ class Core extends Medoo {
       return $datas["id"];
     }
 
+    public function getMember($token,$id,$username="") {
+      if($this->getToken("",$token,$id) == "TRUE") {
+        if($username == "") {
+          return null;
+        }else {
+          $data = $this->database->select("account",["username","id","status"],["username"=> $username]);
+          return json_encode($data);
+        }
+      }
+    }
+
     public function updateSetting($token,$id,$data) {
       $result = false;
       $arr = "";
@@ -95,6 +106,31 @@ class Core extends Medoo {
       return json_encode(["status"=>$result]);
       // return json_encode($this->getID($id));
     }
+
+    public function addMember($token,$id,$data) {
+      $result = false;
+      $arr = "";
+      $checkPSS = $data->password===$data->repassword ? true:false;
+      $data->password = md5(md5($data->password));
+      if($this->getToken("",$token,$id) == "TRUE" && $checkPSS) {
+        $result = $this->database->insert("account", [
+          "username"=> $data->username,
+          "password"=> $data->password,
+          "email"=> $data->email,
+          "bio"=> $data->bio,
+          "key_login"=>"",
+          "status"=> $data->status,
+          "create_by"=>1,
+          "create_time"=>date("Y-m-d H:i:s"),
+          "update_by"=>1,
+          "update_time"=>date("Y-m-d H:i:s"),
+
+        ]);
+      }
+      return json_encode(["status"=>$result]);
+      // return json_encode($result);
+    }
+
   }
 
 

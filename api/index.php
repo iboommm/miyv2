@@ -37,7 +37,6 @@
       }else {
         echo $core->updateSetting($decode->token->token_key,$decode->token->id,$decode->data);
       }
-
   });
 
   Flight::route('POST /seo', function(){
@@ -49,7 +48,19 @@
       }else {
         echo $core->updateSEO($decode->token->token_key,$decode->token->id,$decode->data);
       }
+  });
 
+  Flight::route('POST /member', function(){
+      $rawData = file_get_contents("php://input");
+      $decode = json_decode($rawData);
+      $core = new Core();
+      // echo json_encode($rawData);
+      if(isset($decode->find)) {
+        echo $core->getMember($decode->token->token_key,$decode->token->id,$decode->find);
+      }
+      if(isset($decode->data) && !isset($decode->data->id)) {
+        echo $core->addMember($decode->token->token_key,$decode->token->id,$decode->data);
+      }
   });
 
 
