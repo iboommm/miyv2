@@ -22,6 +22,9 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     token:'',
     title:'Admin',
     id:'',
+    author:'',
+    caption:'',
+    keywords:'',
     status:false
   });
 
@@ -33,6 +36,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.changeMode = function(data) {
     app.mode = data;
     app.storage.title = data.capitalize() + " - Admin - " + app.storage.header ;
+    console.log(data);
     app[data].get();
   }
 
@@ -104,6 +108,70 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     }
   }
 
+  app.seo = {
+    tag : "",
+    state: "",
+    get:function() {
+      var token = {token_key :app.storage.token , id:app.storage.id};
+      var promise = adminService.getSEO(token);
+      // console.log(token);
+      promise.then(
+        function(responds) {
+          // console.log(responds.data);
+          if(responds.data == "FALSE") {
+            app.storage.status = false;
+            app.storage.token = "";
+            $state.go('login');
+          }
+          console.log("responds.data" ,responds.data);
+          $.each(responds.data, function(key,value) {
+            // console.log(value.name);
+              app.seo[value.name] = value.value;
+              // console.log("app.setting =>", app.setting);
+          });
+          app.tmp = responds.data;
+        }
+      )
+      promise.catch(
+        function(responds) {
+          console.log("---- Err ----");
+        }
+      )
+    },
+    update: function() {
+      var token = {token_key :app.storage.token , id:app.storage.id};
+      var data = app.tmp;
+      $.each(data, function(key,value) {
+        if(value.name == "title" || value.name == "caption") {
+          value.value = app.setting[value.name];
+        }
+      });
+      var promise = adminService.updateSEO(data,token);
+
+      promise.then(
+        function(responds) {
+          // console.log("responds.data" ,responds.data);
+          if(responds.data == "FALSE") {
+            app.storage.status = false;
+            app.storage.token = "";
+            $state.go('login');
+          }else if(responds.data.status == 1) {
+            Notification.success("Update Complete");
+          }else {
+            Notification.error("Update Error");
+          }
+
+
+        }
+      )
+      promise.catch(
+        function(responds) {
+          console.log("---- Err ----");
+        }
+      )
+    }
+  }
+
   app.showUsername = function() {
     console.log(app.username);
   }
@@ -113,6 +181,8 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   }
 
   self.initial = function() {
+
+
 
     var page = 'admin';
     console.log(app.storage.title);
@@ -127,9 +197,18 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
           app.storage.token = "";
           $state.go('login');
         }
-        console.log(responds.data);
-        app.storage.header = responds.data;
-        app.storage.title = app.mode.capitalize() + " - Admin - " + app.storage.header ;
+        console.log("Title",responds.data);
+        $.each(responds.data, function(key,value) {
+          // console.log(value.name);
+          if(value.name == "title") {
+            app.storage.header = value.value;
+            app.storage.title = app.mode.capitalize() + " - Admin - " + value.value ;
+          }else {
+            app.storage[value.name] = value.value;
+          }
+
+        });
+
       }
     )
     getTitle.catch(
