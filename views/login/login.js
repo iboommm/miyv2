@@ -5,7 +5,7 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
 
   app.storage = $sessionStorage.$default({
     token:'',
-    title:'',
+    title:'Login',
     id:'',
     status:false
   });
@@ -21,13 +21,34 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
 
   app.logout = function() {
     app.storage.status = false;
+    app.storage.token = '';
   }
 
   self.initial = function() {
 
+
     var page = 'login';
     var token = {token_key :app.storage.token , id:app.storage.id};
     var promise = appService.getToken(page,token);
+    var getTitle = appService.getTitle(page,token);
+    getTitle.then(
+      function(responds) {
+        // console.log(responds.data);
+        if(responds.data == "FALSE") {
+          app.storage.status = false;
+          app.storage.token = "";
+          $state.go('login');
+        }
+        console.log(responds.data);
+        app.storage.header = responds.data;
+        app.storage.title = page.capitalize() + " - Admin - " + app.storage.header ;
+      }
+    )
+    getTitle.catch(
+      function(responds) {
+        console.log("---- Err ----");
+      }
+    )
     // console.log(token);
     promise.then(
       function(responds) {
@@ -68,6 +89,10 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
         console.log("---- Err ----");
       }
     )
+  }
+
+  app.go = function(page) {
+    $state.go(page);
   }
 
   self.initial();

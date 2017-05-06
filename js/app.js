@@ -1,4 +1,4 @@
-angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'])
+var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'])
 
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider, $ocLazyLoadProvider,NotificationProvider) {
       $urlRouterProvider.otherwise('/home');
@@ -50,4 +50,34 @@ angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'
                 }]
               }
           })
+
+          .state('admin', {
+                url: "/admin",
+                views: {
+                  "content": {
+                    controller: 'adminController',
+                    controllerAs: 'adminController',
+                    templateUrl: 'views/admin/admin.html'
+                  }
+                },
+                resolve: {
+                  loadController: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('views/admin/admin.js');
+                  }]
+                    ,loadService: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('views/admin/admin.service.js');
+                  }]
+                }
+            })
     })
+
+    app.controller("appController",["$scope",'$sessionStorage',function($scope,$sessionStorage) {
+      var app = $scope;
+      app.storage = $sessionStorage;
+      // $sessionStorage.$reset();
+      // console.log($sessionStorage.title);
+    }]);
+
+    String.prototype.capitalize = function() {
+      return this.charAt(0).toUpperCase() + this.slice(1);
+    }

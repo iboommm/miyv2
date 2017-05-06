@@ -1,12 +1,12 @@
-angular.module('miyv2').service('appService',['$http','$q',function($http,$q){
+angular.module('miyv2').service('adminService',['$http','$q',function($http,$q){
     var self = this;
 
 
     var deferObject,serviceMethods = {
         //TODO your code here
-        getToken : function(page,token){
-            var params = {page: page,token:token};
-            var promise = $http.post("api/token",params),
+        getSetting : function(token){
+            var params = {token:token};
+            var promise = $http.post("api/setting",params),
                 deferObject = deferObject || $q.defer();
 
             promise.then(
@@ -20,9 +20,10 @@ angular.module('miyv2').service('appService',['$http','$q',function($http,$q){
             return deferObject.promise;
 
         },
-        getTitle : function(page,token){
-            var params = {page: page,token:token};
-            var promise = $http.post("api/title",params),
+        updateSetting : function(data,token){
+            var params = {token:token,data};
+            // console.log("params =>", params);
+            var promise = $http.post("api/setting",params),
                 deferObject = deferObject || $q.defer();
 
             promise.then(
