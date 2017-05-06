@@ -92,7 +92,7 @@ var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','
                   }]
                 }
             })
-    })
+    });
 
     app.controller("appController",["$scope",'$sessionStorage',function($scope,$sessionStorage) {
       var app = $scope;
