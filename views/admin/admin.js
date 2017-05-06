@@ -28,7 +28,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
       url:'views/admin/admin-ban-acc.html'
     },
     "AccAdd": {
-      name:"AccAdd User",
+      name:"Add User",
       icon:'plus-circle',
       url:'views/admin/admin-add-acc.html'
     },
@@ -64,7 +64,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
           // console.log(value.name);
           if(value.name == "title") {
             app.storage.header = value.value;
-            app.storage.title = app.mode.capitalize() + " - Admin - " + value.value ;
+            app.storage.title = app.modeMap[app.mode].name + " - Admin - " + app.storage.header ; + " - Admin - " + value.value ;
           }else {
             app.storage[value.name] = value.value;
           }
@@ -103,8 +103,8 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
 
   app.changeMode = function(data) {
     app.mode = data;
-    app.storage.title = data.capitalize() + " - Admin - " + app.storage.header ;
-    console.log(data);
+    app.storage.title = app.modeMap[data].name + " - Admin - " + app.storage.header ;
+    console.log(app.storage.title);
     app[data].get();
   }
 
