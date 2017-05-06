@@ -17,8 +17,8 @@
     <tr ng-repeat="user in AccMgnt.user">
       <th scope="row">{{user.id}}</th>
       <td>{{user.username}}</td>
-      <td>{{user.status}}</td>
-      <td><button class="btn btn-primary"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-danger"><i class="fa fa-trash"></i> Remove</button></td>
+      <td ng-bind-html="getStatus(user.status)"></td>
+      <td><button type="button" class="btn btn-primary" ng-click=""><i class="fa fa-pencil"></i> Edit</button> <button type="button"  class="btn btn-danger" ng-click=""><i class="fa fa-trash"></i> Remove</button></td>
     </tr>
   </tbody>
 </table>

@@ -59,6 +59,11 @@ class Core extends Medoo {
       return json_encode($datas);
     }
 
+    public function getStatus($data,$token) {
+      $datas = $this->database->select("level",["id","name","icon"]);
+      return json_encode($datas);
+    }
+
     public function getSetting($token,$id) {
       if($this->getToken("",$token,$id) == "TRUE") {
         $datas = $this->database->select("setting","*",["name" => ["title", "caption"]]);
@@ -113,6 +118,7 @@ class Core extends Medoo {
       $checkPSS = $data->password===$data->repassword ? true:false;
       $data->password = md5(md5($data->password));
       if($this->getToken("",$token,$id) == "TRUE" && $checkPSS) {
+        $thisID = $this->getID($id);
         $result = $this->database->insert("account", [
           "username"=> $data->username,
           "password"=> $data->password,
@@ -120,9 +126,9 @@ class Core extends Medoo {
           "bio"=> $data->bio,
           "key_login"=>"",
           "status"=> $data->status,
-          "create_by"=>1,
+          "create_by"=>$thisID,
           "create_time"=>date("Y-m-d H:i:s"),
-          "update_by"=>1,
+          "update_by"=>$thisID,
           "update_time"=>date("Y-m-d H:i:s"),
 
         ]);

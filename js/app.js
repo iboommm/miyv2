@@ -1,4 +1,4 @@
-var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage'])
+var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','ngStorage','ngSanitize'])
 
     .config(function ($stateProvider, $locationProvider, $urlRouterProvider, $ocLazyLoadProvider,NotificationProvider) {
       $urlRouterProvider.otherwise('/home');
