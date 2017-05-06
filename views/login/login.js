@@ -25,7 +25,7 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
   }
 
   self.initial = function() {
-
+    
 
     var page = 'login';
     var token = {token_key :app.storage.token , id:app.storage.id};
@@ -39,9 +39,18 @@ angular.module('miyv2').controller('LoginController',['$scope','$state','$http',
           app.storage.token = "";
           $state.go('login');
         }
-        console.log(responds.data);
-        app.storage.header = responds.data;
-        app.storage.title = page.capitalize() + " - Admin - " + app.storage.header ;
+        console.log("Title",responds.data);
+        $.each(responds.data, function(key,value) {
+          // console.log(value.name);
+          if(value.name == "title") {
+            app.storage.header = value.value;
+            app.storage.title = app.mode.capitalize() + " - Admin - " + value.value ;
+          }else {
+            app.storage[value.name] = value.value;
+          }
+
+        });
+
       }
     )
     getTitle.catch(

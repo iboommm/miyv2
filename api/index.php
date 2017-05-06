@@ -40,6 +40,18 @@
 
   });
 
+  Flight::route('POST /seo', function(){
+      $rawData = file_get_contents("php://input");
+      $decode = json_decode($rawData);
+      $core = new Core();
+      if(!isset($decode->data)) {
+        echo $core->getSEO($decode->token->token_key,$decode->token->id);
+      }else {
+        echo $core->updateSEO($decode->token->token_key,$decode->token->id,$decode->data);
+      }
+
+  });
+
 
   Flight::start();
 

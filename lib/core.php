@@ -55,16 +55,24 @@ class Core extends Medoo {
     }
 
     public function getTitle($data,$token,$id) {
-      $datas = $this->database->get("setting","value",["name"=> "title"]);
-      return $datas;
+      $datas = $this->database->select("setting","*",["name"=> ["title","tag","caption"]]);
+      return json_encode($datas);
     }
 
     public function getSetting($token,$id) {
       if($this->getToken("",$token,$id) == "TRUE") {
-        $datas = $this->database->select("setting","*");
+        $datas = $this->database->select("setting","*",["name" => ["title", "caption"]]);
         return json_encode($datas);
       }
     }
+
+    public function getSEO($token,$id) {
+      if($this->getToken("",$token,$id) == "TRUE") {
+        $datas = $this->database->select("setting","*",["name" => ["tag", "state"]]);
+        return json_encode($datas);
+      }
+    }
+
     public function getID($baseID) {
       $datas = $this->database->get("account",["id"],["username"=> base64_decode($baseID)]);
       return $datas["id"];
