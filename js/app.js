@@ -74,5 +74,10 @@ var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','
     app.controller("appController",["$scope",'$sessionStorage',function($scope,$sessionStorage) {
       var app = $scope;
       app.storage = $sessionStorage;
+      // $sessionStorage.$reset();
       // console.log($sessionStorage.title);
     }]);
+
+    String.prototype.capitalize = function() {
+      return this.charAt(0).toUpperCase() + this.slice(1);
+    }

@@ -18,10 +18,6 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     }
   }
 
-  String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
-  }
-
   app.storage = $sessionStorage.$default({
     token:'',
     title:'Admin',
@@ -133,6 +129,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
         }
         console.log(responds.data);
         app.storage.header = responds.data;
+        app.storage.title = app.mode.capitalize() + " - Admin - " + app.storage.header ;
       }
     )
     getTitle.catch(
