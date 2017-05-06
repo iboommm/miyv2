@@ -13,6 +13,10 @@ var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','
             positionY: 'top'
         });
 
+        String.prototype.capitalize = function() {
+          return this.charAt(0).toUpperCase() + this.slice(1);
+        }
+
       $stateProvider
       .state('home', {
             url: "/home",
@@ -50,6 +54,25 @@ var app = angular.module('miyv2', ['ui.router','oc.lazyLoad','ui-notification','
                 }]
               }
           })
+
+          .state('logout', {
+                url: "/logout",
+                views: {
+                  "content": {
+                    controller: 'LogoutController',
+                    controllerAs: 'logoutController',
+                    templateUrl: 'views/logout/logout.html'
+                  }
+                },
+                resolve: {
+                  loadController: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('views/logout/logout.js');
+                  }]
+                    ,loadService: ['$ocLazyLoad', function($ocLazyLoad) {
+                    return $ocLazyLoad.load('views/logout/logout.service.js');
+                  }]
+                }
+            })
 
           .state('admin', {
                 url: "/admin",
