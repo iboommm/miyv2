@@ -8,6 +8,9 @@
     <textarea class="form-control" rows="8" cols="80" ng-model="seo.state" ></textarea>
   </div>
   <div class="form-group">
-    <button class="btn btn-success" ng-click="seo.update()">Save</button>
+    <button class="btn btn-success" ng-show="seo.sync == 0" ng-click="seo.update()">Save</button>
+    <div class="progress" ng-show="seo.sync == 1">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+    </div>
   </div>
 </form>

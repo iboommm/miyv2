@@ -126,12 +126,14 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.setting = {
     title : "",
     caption: "",
+    sync: 0,
     get:function() {
       const token = {token_key :app.storage.token , id:app.storage.id};
       const promise = adminService.getSetting(token);
       // console.log(token);
       promise.then(
         function(responds) {
+
           // console.log(responds.data);
           if(responds.data == "FALSE") {
             app.storage.status = false;
@@ -147,6 +149,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
             }
           });
           app.tmp = responds.data;
+
         }
       )
       promise.catch(
@@ -156,6 +159,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
       )
     },
     update: function() {
+      app.setting.sync = 1;
       const token = {token_key :app.storage.token , id:app.storage.id};
       const data = app.tmp;
       $.each(data, function(key,value) {
@@ -177,7 +181,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
           }else {
             Notification.error("Update Error");
           }
-
+          app.setting.sync = 0;
 
         }
       )
@@ -192,6 +196,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.seo = {
     tag : "",
     state: "",
+    sync: "",
     get:function() {
       const token = {token_key :app.storage.token , id:app.storage.id};
       const promise = adminService.getSEO(token);
@@ -222,16 +227,17 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     update: function() {
       const token = {token_key :app.storage.token , id:app.storage.id};
       const data = app.tmp;
+      app.seo.sync = 1;
       $.each(data, function(key,value) {
         if(value.name == "title" || value.name == "caption") {
           value.value = app.setting[value.name];
         }
       });
-      const promise = adminService.updateSEO(data,token);
+      const promise = adminService.updateSEO(token,data);
 
       promise.then(
         function(responds) {
-          // console.log("responds.data" ,responds.data);
+          console.log("responds.data" ,responds.data);
           if(responds.data == "FALSE") {
             app.storage.status = false;
             app.storage.token = "";
@@ -241,7 +247,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
           }else {
             Notification.error("Update Error");
           }
-
+          app.seo.sync = 0;
 
         }
       )
@@ -318,6 +324,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   }
 
   app.AccAdd = {
+    sync:0,
     tmp: {
       username:"",
       password:"",
@@ -352,6 +359,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
                 email:"",
                 status:2
               }
+              app.AccAdd.sync = 0;
             }else {
               Notification.error("Add Error");
             }

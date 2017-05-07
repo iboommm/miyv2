@@ -29,6 +29,9 @@
 
 
   <div class="form-group">
-    <button class="btn btn-success" ng-click="AccAdd.add()"><i class="fa fa-user-plus"></i> Submit</button>
+    <button class="btn btn-success" ng-show="AccAdd.sync == 0" ng-click="AccAdd.add()"><i class="fa fa-user-plus"></i> Submit</button>
+    <div class="progress" ng-show="AccAdd.sync == 1">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+    </div>
   </div>
 </form>
