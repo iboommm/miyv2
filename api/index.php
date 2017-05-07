@@ -32,7 +32,11 @@
       $rawData = file_get_contents("php://input");
       $decode = json_decode($rawData);
       $core = new Core();
-      echo $core->getStatus($decode->token->token_key,$decode->token->id);
+      if(isset($decode->data)) {
+        echo $core->updateStatus($decode->token->token_key,$decode->token->id,$decode->data);
+      }else {
+        echo $core->getStatus($decode->token->token_key,$decode->token->id);
+      }
   });
 
   Flight::route('POST /setting', function(){
