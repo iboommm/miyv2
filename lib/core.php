@@ -112,6 +112,23 @@ class Core extends Medoo {
       // return json_encode($this->getID($id));
     }
 
+    public function updateStatus($token,$id,$data) {
+      if($this->getToken("",$token,$id) == "TRUE") {
+        foreach($data as $item) {
+          $result = $this->database->update("level", [
+              "name" => $item->name,
+            	"icon" => $item->icon,
+              "update_time" => date("Y-m-d H:i:s"),
+              "update_by" => $this->getID($id)
+            ], [
+            	"id" => $item->id
+            ]);
+        }
+      }
+      return json_encode(["status"=>$result]);
+      // return json_encode($data);
+    }
+
     public function addMember($token,$id,$data) {
       $result = false;
       $arr = "";

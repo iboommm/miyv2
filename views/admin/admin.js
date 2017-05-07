@@ -23,10 +23,10 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
       icon:'user',
       url:'views/admin/admin-mgnt-acc.html'
     },
-    "AccBan": {
-      name:"Ban User",
-      icon:'ban',
-      url:'views/admin/admin-ban-acc.html'
+    "AccStatus": {
+      name:"Status User",
+      icon:'group',
+      url:'views/admin/admin-status-acc.html'
     },
     "AccAdd": {
       name:"Add User",
@@ -403,6 +403,52 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
     }
   }
 
+  app.AccStatus = {
+    get:function() {
+      return 0;
+    },
+    update: function() {
+      const token = {token_key :app.storage.token , id:app.storage.id};
+      const data = app.status;
+      app.status = [];
+      const promise = adminService.updateStatus(data,token);
+
+      promise.then(
+        function(responds) {
+          console.log("responds.data" ,responds.data);
+          if(responds.data == "FALSE") {
+            app.storage.status = false;
+            app.storage.token = "";
+            $state.go('in');
+          }else if(responds.data.status == 1) {
+            Notification.success("Update Complete");
+            const getStatus = adminService.getStatus("page",token);
+            getStatus.then(
+              function(responds) {
+                if(responds != "false")
+                  app.status = responds.data;
+              }
+            )
+            getStatus.catch(
+              function(responds) {
+                console.log("---- Err ----");
+              }
+            )
+          }else {
+            Notification.error("Update Error");
+          }
+
+
+        }
+      )
+      promise.catch(
+        function(responds) {
+          console.log("---- Err ----");
+        }
+      )
+    }
+  }
+
   app.logout = function() {
     app.storage.status = false;
   }
@@ -419,7 +465,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.load = function(data) {
     app.section = data;
     if(data == "account") {
-      app.changeMode('AccAdd');
+      app.changeMode('AccStatus');
     }else if(data == "general") {
       app.changeMode('setting');
     }

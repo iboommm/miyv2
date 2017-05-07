@@ -1,0 +1,29 @@
+
+<form ng-submit="AccStatus.update()">
+  <table class="table" ng-if="status != []">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Name</th>
+      <th>Icon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="level in status">
+      <th scope="row">{{level.id}}</th>
+      <td><input type="text" class="form-control" ng-model="level.name" placeholder="name"></td>
+      <td>
+
+        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+     <div class="input-group-addon"><i class="fa fa-{{level.icon}}"></i></div>
+     <input type="text" class="form-control" placeholder="Icon" ng-model="level.icon">
+   </div>
+
+</td>
+    </tr>
+  </tbody>
+</table>
+  <div class="form-group">
+    <button class="btn btn-success"><i class="fa fa-check-square"></i> Update</button>
+  </div>
+</form>
