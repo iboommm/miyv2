@@ -26,7 +26,8 @@ class Core extends Medoo {
       if ($this->database->has("account", [
       	"AND" => [
       		"username" => "$username",
-      		"password" => md5(md5("$password"))
+      		"password" => md5(md5("$password")),
+          "status[=]" => 3
       	]
       ]))
       {
