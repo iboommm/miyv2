@@ -262,6 +262,11 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.AccMgnt = {
     user : [],
     find: "",
+    tmp:[],
+    edit: function(data) {
+      app.AccMgnt.tmp = data;
+      $("#acc-edit").modal("toggle").appendTo("body") ;
+    },
     get:function() {
       const token = {token_key :app.storage.token,id:app.storage.id};
       const find = app.AccMgnt.find;
@@ -473,7 +478,7 @@ angular.module('miyv2').controller('adminController',['$scope','$state','$http',
   app.load = function(data) {
     app.section = data;
     if(data == "account") {
-      app.changeMode('AccStatus');
+      app.changeMode('AccMgnt');
     }else if(data == "general") {
       app.changeMode('setting');
     }

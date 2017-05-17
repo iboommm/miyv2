@@ -1,4 +1,4 @@
-angular.module('miyv2').service('homeService',['$http','$q',function($http,$q){
+angular.module('miyv2').service('HomeService',['$http','$q',function($http,$q){
     var self = this;
 
 

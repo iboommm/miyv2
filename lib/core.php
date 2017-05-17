@@ -89,7 +89,7 @@ class Core extends Medoo {
         if($username == "") {
           return null;
         }else {
-          $data = $this->database->select("account",["username","id","status"],["username[~]"=> $username,"LIMIT"=>10]);
+          $data = $this->database->select("account","*",["username[~]"=> $username,"LIMIT"=>10]);
           return json_encode($data);
         }
       }

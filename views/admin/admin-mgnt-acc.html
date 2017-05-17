@@ -18,7 +18,10 @@
       <th scope="row">{{user.id}}</th>
       <td>{{user.username}}</td>
       <td ng-bind-html="getStatus(user.status)"></td>
-      <td><button type="button" class="btn btn-primary" ng-click=""><i class="fa fa-pencil"></i> Edit</button> <button type="button"  class="btn btn-danger" ng-click=""><i class="fa fa-trash"></i> Remove</button></td>
+      <td>
+        <button type="button" class="btn btn-primary" ng-click="AccMgnt.edit(user)"><i class="fa fa-pencil"></i> Edit</button>
+        <button type="button" ng-if="user.status != 3" class="btn btn-danger" ng-click=""><i class="fa fa-trash"></i> Remove</button>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -26,3 +29,58 @@
     <button class="btn btn-success" ng-click="AccMgnt.get()">Search</button>
   </div>
 </form>
+
+<div class="modal fade" id="acc-edit" tabindex="9999" role="dialog" style="z-index:9999">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="Username"><i class="fa fa-user"></i> Username </label>
+            <input type="text" class="form-control" ng-model="AccMgnt.tmp.username" placeholder="Username" >
+          </div>
+          <div class="form-group">
+            <label for="password"><i class="fa fa-lock"></i> Password </label>
+            <input type="password" class="form-control" ng-model="AccMgnt.tmp.password" placeholder="Password" >
+          </div>
+          <div class="form-group">
+            <label for="re-password"><i class="fa fa-lock"></i> Re-password </label>
+            <input type="password" class="form-control" ng-model="AccMgnt.tmp.repassword" placeholder="Re Password" >
+          </div>
+          <div class="form-group">
+            <label for="Email"><i class="fa fa-at"></i> Email </label>
+            <input type="email" class="form-control" ng-model="AccMgnt.tmp.email" placeholder="Email" >
+          </div>
+          <div class="form-group">
+            <label for="Bio"><i class="fa fa-address-card"></i> Bio </label>
+            <textarea class="form-control" ng-model="AccMgnt.tmp.bio" placeholder="Bio"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="Status"><i class="fa fa-group"></i> Status </label>
+            <select class="form-control" ng-model="AccMgnt.tmp.status">
+              <option ng-repeat="level in status" ng-selected="level.id == AccMgnt.tmp.status" value="{{ level.id }}">{{ level.name }}</option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <button class="btn btn-success" ng-show="AccAdd.sync == 0" ng-click="AccMgnt.update()"><i class="fa fa-user-plus"></i> Submit</button>
+            <div class="progress" ng-show="AccMgnt.sync == 1">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 100%"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
